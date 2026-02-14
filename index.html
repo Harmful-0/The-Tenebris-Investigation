@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Manual TN-47: The Tenebris Investigation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=IBM+Plex+Mono:wght@300;400;600&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --noir-black: #0a0a0a;
+            --noir-grey: #1a1a1a;
+            --manual-beige: #e8dcc4;
+            --accent-red: #8b1e1e;
+            --warning-amber: #d4a574;
+            --tech-green: #2d5016;
+            --fade-white: #f5f1e8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--noir-grey) 0%, var(--noir-black) 100%);
+            color: var(--manual-beige);
+            font-family: 'IBM Plex Mono', monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(232, 220, 196, 0.03) 2px,
+                    rgba(232, 220, 196, 0.03) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            border: 3px solid var(--accent-red);
+            background: rgba(26, 26, 26, 0.9);
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(139, 30, 30, 0.3);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header::before {
+            content: 'CLASSIFIED';
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: var(--accent-red);
+            color: var(--noir-black);
+            padding: 5px 20px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+        }
+
+        .manual-id {
+            font-size: 0.85rem;
+            color: var(--warning-amber);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--fade-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .subtitle {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--warning-amber);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--accent-red);
+        }
+
+        .meta-item {
+            font-size: 0.8rem;
+        }
+
+        .meta-label {
+            color: var(--warning-amber);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .section {
+            background: rgba(26, 26, 26, 0.8);
+            border-left: 4px solid var(--accent-red);
+            padding: 30px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideIn 0.6s ease-out forwards;
+            position: relative;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.4s; }
+        .section:nth-child(2) { animation-delay: 0.6s; }
+        .section:nth-child(3) { animation-delay: 0.8s; }
+        .section:nth-child(4) { animation-delay: 1s; }
+        .section:nth-child(5) { animation-delay: 1.2s; }
+        .section:nth-child(6) { animation-delay: 1.4s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(139, 30, 30, 0.2);
+            font-family: 'Courier Prime', monospace;
+        }
+
+        h2 {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.5rem;
+            color: var(--fade-white);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::before {
+            content: '//';
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+
+        .noir-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--manual-beige);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .tech-spec {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid var(--tech-green);
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .spec-title {
+            color: var(--warning-amber);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spec-title::before {
+            content: '▸';
+            color: var(--tech-green);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 12px 20px;
+            margin-top: 15px;
+        }
+
+        .spec-label {
+            color: var(--tech-green);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .spec-value {
+            color: var(--manual-beige);
+            font-size: 0.85rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(139, 30, 30, 0.2) 0%, rgba(139, 30, 30, 0.05) 100%);
+            border: 2px solid var(--accent-red);
+            padding: 20px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: '⚠ WARNING';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--noir-black);
+            padding: 0 10px;
+            color: var(--accent-red);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+        }
+
+        .diagram {
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid var(--warning-amber);
+            padding: 30px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            color: var(--warning-amber);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .ascii-art {
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.75rem;
+            line-height: 1.2;
+            color: var(--tech-green);
+            white-space: pre;
+            overflow-x: auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .evidence-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .evidence-list li {
+            padding: 12px 0 12px 30px;
+            position: relative;
+            border-bottom: 1px solid rgba(139, 30, 30, 0.3);
+        }
+
+        .evidence-list li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--accent-red);
+            font-size: 1.2rem;
+        }
+
+        .footnote {
+            font-size: 0.75rem;
+            color: var(--warning-amber);
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(139, 30, 30, 0.3);
+            font-style: italic;
+        }
+
+        .highlight {
+            color: var(--warning-amber);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ascii-art {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="manual-id">FIELD MANUAL TN-47 | SECTION XII | REVISION 3.7</div>
+            <h1>The Tenebris Investigation</h1>
+            <div class="subtitle">A Technical Briefing on Memory, Mountains, and Murder</div>
+            <div class="metadata">
+                <div class="meta-item">
+                    <span class="meta-label">ASSIGNED INVESTIGATOR:</span>
+                    [REDACTED]
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">CASE STATUS:</span>
+                    ACTIVE / ONGOING
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">CLEARANCE LEVEL:</span>
+                    ARCHON EYES ONLY
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">LAST UPDATED:</span>
+                    CYCLE 47, DAY 12
+                </div>
+            </div>
+        </header>
+
+        <section class="section">
+            <span class="section-number">01</span>
+            <h2>Operational Theater: Geography</h2>
+            
+            <p class="noir-text">
+                The rain came down like it always did—hard and unforgiving on the windward side of the volcanic peaks. On the other side? Nothing but sand and bones. That's how the world works when you've got mountains taller than God's mistakes and a pass so narrow you could choke on the air going through it.
+            </p>
+
+            <div class="tech-spec">
+                <div class="spec-title">Geographic Asset: Tenebris Pass</div>
+                <div class="spec-grid">
+                    <span class="spec-label">Classification:</span>
+                    <span class="spec-value">Natural bottleneck formation (limestone composite)</span>
+                    
+                    <span class="spec-label">Dimensions:</span>
+                    <span class="spec-value">Width: 127m at narrowest point | Height: 890m canyon walls</span>
+                    
+                    <span class="spec-label">Strategic Value:</span>
+                    <span class="spec-value">PRIMARY MIGRATION FUNNEL - All southbound civilian traffic</span>
+                    
+                    <span class="spec-label">Fortification:</span>
+                    <span class="spec-value">Class-IV Archon checkpoint | 24hr surveillance grid</span>
+                    
+                    <span class="spec-label">Weather Pattern:</span>
+                    <span class="spec-value">Windward: 2100mm annual rainfall | Leeward: 140mm (rain shadow effect)</span>
+                </div>
+            </div>
+
+            <p class="noir-text">
+                The Archons knew what they were doing when they set up shop here. Control the pass, control the people. It's the oldest game in the book—older than the mountains themselves, and twice as cruel.
+            </p>
+
+            <div class="diagram">
+                <div class="diagram-title">Fig. 1.1 - Cross-Section: Volcanic Peaks & Rain Shadow Effect</div>
+                <div class="ascii-art">
+    WINDWARD ←                                   → LEEWARD
+    (Green Plains)                            (Southern Wastes)
+        
+         ╔═══╗                    ╔═══╗
+     ≈≈≈≈║   ║≈≈≈             ≈≈≈║   ║
+    ≈≈≈≈≈║   ║≈≈≈≈         ≈≈≈≈≈║   ║
+   ≈≈≈≈≈≈╠═══╣≈≈≈≈≈     ≈≈≈≈≈≈≈╠═══╣
+  ≈≈≈≈≈≈≈║   ║≈≈≈≈≈≈   ≈≈≈≈≈≈≈≈║   ║
+  ██████║░░░║████████████████████████  ← Tenebris Pass
+  ██████║░░░║████████████████████████     (127m width)
+  ██████╚═══╝███████████░░░██████████
+  █████████████████████░░░░░█████████
+  ████████████████████░░░░░░░████████
+  ███████████████████░░░░░░░░░███████  ← Desert begins
+                                          (rain shadow)
+    2100mm/yr              ↓          140mm/yr
+    RAINFALL           CHECKPOINT      RAINFALL
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <span class="section-number">02</span>
+            <h2>Power Structure Analysis</h2>
+            
+            <p class="noir-text">
+                In this town—this whole damn world—power doesn't come from guns or gold. It comes from air. From truth. Or what they tell you is the truth. The Archons control the Record, and the Record controls everything else. History isn't what happened; it's what they say happened. And brother, they've been saying it for a long, long time.
+            </p>
+
+            <div class="tech-spec">
+                <div class="spec-title">Governing Entity: The Respiratory Oligarchy</div>
+                <div class="spec-grid">
+                    <span class="spec-label">Official Title:</span>
+                    <span class="spec-value">Archive Archons / Record Keepers</span>
+                    
+                    <span class="spec-label">Power Base:</span>
+                    <span class="spec-value">Monopoly on historical data & memory-protection technology</span>
+                    
+                    <span class="spec-label">Control Method:</span>
+                    <span class="spec-value">Information quarantine, selective truth distribution</span>
+                    
+                    <span class="spec-label">Primary Asset:</span>
+                    <span class="spec-value">Archive of Rescinded Truths (GPS: CLASSIFIED)</span>
+                    
+                    <span class="spec-label">Hierarchy:</span>
+                    <span class="spec-value">Archons → Tier-1 Keepers → Labor-Tiers 2-9</span>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>FIELD NOTE:</strong> The Archive of Rescinded Truths is buried deep beneath the Green Plains. It holds the Original Maps—the ones that show what the South really is. The Archons have been lying about it since before anyone can remember. But someone always remembers. Someone always knows.</p>
+            </div>
+
+            <p class="noir-text">
+                I've seen men killed for less than knowing where that bunker is. Hell, I've almost been killed myself. But that's the job, isn't it? Digging up what should stay buried. Finding the truth in a world built on forgetting.
+            </p>
+        </section>
+
+        <section class="section">
+            <span class="section-number">03</span>
+            <h2>The Memory Plague: Technical Overview</h2>
+            
+            <p class="noir-text">
+                Every fifty years, like clockwork, the world forgets. The sky goes white. The air hums. And then—nothing. People wake up in the Green Plains with blank stares and empty minds, like they just crawled out of a fever dream. The Archons call it the Memory Plague. I call it convenient.
+            </p>
+
+            <div class="tech-spec">
+                <div class="spec-title">Phenomenon Designation: Memory Plague (Classification: Artificial)</div>
+                <div class="spec-grid">
+                    <span class="spec-label">Frequency:</span>
+                    <span class="spec-value">50-year cycle (±3 days variance)</span>
+                    
+                    <span class="spec-label">Trigger Mechanism:</span>
+                    <span class="spec-value">Radiation burst (source: CLASSIFIED) | Neurological disruption</span>
+                    
+                    <span class="spec-label">Effect Radius:</span>
+                    <span class="spec-value">Continental (excludes protected zones)</span>
+                    
+                    <span class="spec-label">Symptoms:</span>
+                    <span class="spec-value">Total retrograde amnesia, identity loss, temporal disorientation</span>
+                    
+                    <span class="spec-label">Recovery Time:</span>
+                    <span class="spec-value">6-72 hours (varies by exposure level)</span>
+                    
+                    <span class="spec-label">Social Impact:</span>
+                    <span class="spec-value">Total societal reset | Enables re-tiering of populace</span>
+                </div>
+            </div>
+
+            <p class="noir-text">
+                It's a beautiful system, really. Wipe the slate clean, shuffle the deck, and deal everyone a new hand. The Archons assign you a Labor-Tier while you're still trying to remember your own name. By the time you figure out who you are, you've already accepted who they tell you you are.
+            </p>
+
+            <div class="warning-box">
+                <p><strong>INVESTIGATOR'S NOTE:</strong> Radiation patterns suggest artificial origin. Natural phenomena don't respect political boundaries. This one does. Someone's finger is on the trigger, and it ain't Mother Nature's.</p>
+            </div>
+
+            <div class="diagram">
+                <div class="diagram-title">Fig. 3.1 - The Awakening: Temporal Flow Chart</div>
+                <div class="ascii-art">
+T-MINUS 00:00:00  ┌──────────────────┐
+                  │  RADIATION BURST │
+                  └────────┬─────────┘
+                           │
+T+ 00:00:15       ┌────────▼─────────┐
+                  │   NEURAL WIPE    │
+                  │  (Mass Amnesia)  │
+                  └────────┬─────────┘
+                           │
+T+ 00:06:00       ┌────────▼─────────┐      ┌──────────────────┐
+                  │   THE AWAKENING  │◄─────┤  ARCHON PATROLS  │
+                  │   (Green Plains) │      │   (immediate)    │
+                  └────────┬─────────┘      └──────────────────┘
+                           │
+T+ 00:12:00       ┌────────▼─────────┐
+                  │  CLASSIFICATION  │
+                  │   (Labor-Tiers)  │
+                  └────────┬─────────┘
+                           │
+T+ 48:00:00       ┌────────▼─────────┐
+                  │   NEW IDENTITY   │
+                  │    ACCEPTED      │
+                  └──────────────────┘
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <span class="section-number">04</span>
+            <h2>Subject Assets: Investigator's Toolkit</h2>
+            
+            <p class="noir-text">
+                I've got three things keeping me alive in this mess. Three things the Archons don't know about, and three things they'd kill me for if they did. A ring. A dagger. And a pair of earrings that used to belong to someone who knew too much.
+            </p>
+
+            <div class="tech-spec">
+                <div class="spec-title">Asset Alpha: The Unknown Ring</div>
+                <div class="spec-grid">
+                    <span class="spec-label">Material Composition:</span>
+                    <span class="spec-value">Paramagnetic iridium alloy (non-standard isotope)</span>
+                    
+                    <span class="spec-label">Function:</span>
+                    <span class="spec-value">Faraday Effect generation | Neurological shielding</span>
+                    
+                    <span class="spec-label">Effectiveness:</span>
+                    <span class="spec-value">78% memory retention during Memory Plague events</span>
+                    
+                    <span class="spec-label">Side Effects:</span>
+                    <span class="spec-value">Headaches, temporal disorientation, lucid dream states</span>
+                    
+                    <span class="spec-label">Origin:</span>
+                    <span class="spec-value">UNKNOWN - Pre-Archon era (estimated 200+ years)</span>
+                </div>
+            </div>
+
+            <p class="noir-text">
+                The ring hums against my finger when the plague comes. It feels like ice and fire at the same time, like my brain's being squeezed through a sieve. But I remember. Not everything—never everything—but enough. Enough to know what they took. Enough to keep asking questions.
+            </p>
+
+            <ul class="evidence-list">
+                <li><span class="highlight">Crimson-Obsidian Dagger</span> - Vibrates in proximity to hidden vaults and sealed chambers. Resonance frequency: 3.7 kHz. Origin: Unknown. Currently used for structural reconnaissance.</li>
+                
+                <li><span class="highlight">Filigree Earrings</span> - Physical encryption keys. Dual-function: (1) Lock interface for Archive-era mechanisms. (2) Harmonic resonance with dagger for triangulation of concealed spaces.</li>
+            </ul>
+
+            <div class="warning-box">
+                <p><strong>OPERATIONAL SECURITY BREACH RISK:</strong> All three assets emit trace signatures detectable by Archon scanning equipment at ranges under 15 meters. Recommend avoiding checkpoint zones during active patrols. Risk assessment: CRITICAL.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <span class="section-number">05</span>
+            <h2>Interrogation Methodology</h2>
+            
+            <p class="noir-text">
+                You don't survive long in this world by asking nice questions. You survive by reading the room. By watching how a man's pupils dilate when you mention the South. By catching the micro-tremor in his hand when you say "Archive." The Archons train their people well, but everyone breaks. It's just a matter of finding the right pressure point.
+            </p>
+
+            <div class="tech-spec">
+                <div class="spec-title">Technique: The Pupillary Baseline</div>
+                <div class="spec-grid">
+                    <span class="spec-label">Primary Function:</span>
+                    <span class="spec-value">Establishing truthfulness through ocular response analysis</span>
+                    
+                    <span class="spec-label">Method:</span>
+                    <span class="spec-value">Measure baseline pupil dilation to neutral stimuli, then compare against loaded questions</span>
+                    
+                    <span class="spec-label">Deviation Threshold:</span>
+                    <span class="spec-value">±0.4mm dilation = probable deception | ±0.7mm = confirmed lie</span>
+                    
+                    <span class="spec-label">Environmental Req.:</span>
+                    <span class="spec-value">Controlled lighting (300-400 lux), minimal distractions</span>
+                    
+                    <span class="spec-label">Success Rate:</span>
+                    <span class="spec-value">87% accuracy (non-Archon subjects) | 62% (trained operatives)</span>
+                </div>
+            </div>
+
+            <p class="noir-text">
+                Then there's the Semantic Trap. You don't ask a man if he's lying. You ask him to explain the lie in detail. You let him build the walls of his own prison, brick by brick, until he's boxed himself in so tight he can't breathe. That's when the truth comes out—gasping, desperate, ugly.
+            </p>
+
+            <div class="tech-spec">
+                <div class="spec-title">Technique: Semantic Traps</div>
+                <div class="spec-grid">
+                    <span class="spec-label">Core Principle:</span>
+                    <span class="spec-value">Force subject into detailed explanation of false narrative</span>
+                    
+                    <span class="spec-label">Execution:</span>
+                    <span class="spec-value">Request specifics, timelines, sensory details. Liars construct; truth-tellers recall.</span>
+                    
+                    <span class="spec-label">Red Flags:</span>
+                    <span class="spec-value">Overly consistent details, lack of sensory memory, rehearsed phrasing</span>
+                    
+                    <span class="spec-label">Countermeasures:</span>
+                    <span class="spec-value">Subject may use deflection, aggression, or feigned memory gaps</span>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>FIELD WARNING:</strong> Archon operatives are trained in counter-interrogation. They will attempt to reverse the dynamic. Trust nothing. Verify everything. And for God's sake, don't let them see you sweat.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <span class="section-number">06</span>
+            <h2>Mission Objective: Final Notes</h2>
+            
+            <p class="noir-text">
+                I've been walking this beat for longer than I care to remember—and in this world, memory's the only currency that matters. The Archons want everyone to forget. They want the past buried deeper than their bunker under the Green Plains. But here's the thing about the past: it doesn't stay buried. It claws its way back up, dirt under its fingernails, hungry for daylight.
+            </p>
+
+            <p class="noir-text">
+                The South isn't what they say it is. The maps are wrong. The history is wrong. Everything they've built is a house of cards on a foundation of lies. And I've got the ring, the dagger, and the earrings to prove it.
+            </p>
+
+            <p class="noir-text">
+                So yeah, I'll keep walking. I'll keep asking questions. I'll keep reading the fear in their eyes when I get too close to the truth. Because someone has to remember. Someone has to care. And in a world designed to make you forget, that makes me the most dangerous man alive.
+            </p>
+
+            <div class="warning-box">
+                <p><strong>FINAL DIRECTIVE:</strong> Locate the Archive of Rescinded Truths. Retrieve the Original Maps. Expose the lie about the South. Do not trust Archon personnel. Do not engage in direct confrontation. Survive. Document. Transmit.</p>
+            </div>
+
+            <div class="footnote">
+                END OF MANUAL TN-47 | SECTION XII | REVISION 3.7<br>
+                This document is classified ARCHON EYES ONLY. Unauthorized access is punishable by immediate memory adjustment and Labor-Tier demotion to Level 9 (Surface Mining Detail).<br><br>
+                "The truth isn't out there. It's buried. And it's waiting." - Field Investigator [REDACTED]
+            </div>
+        </section>
+    </div>
+</body>
+</html>
